@@ -36,5 +36,9 @@ public partial class SwordAbilityController : Node
 		var swordInstance = SwordAbility.Instantiate() as Node2D;
 		player.GetParent().AddChild(swordInstance);
 		swordInstance.GlobalPosition = closestEnemy.GlobalPosition;
+		swordInstance.GlobalPosition += Vector2.Right.Rotated((float)GD.RandRange(0, Mathf.Tau)) * 4;
+
+		var enemyDirecion = closestEnemy.GlobalPosition - swordInstance.GlobalPosition;
+		swordInstance.Rotation = enemyDirecion.Angle();
 	}
 }

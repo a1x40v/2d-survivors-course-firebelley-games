@@ -6,6 +6,8 @@ public partial class BasicEnemy : CharacterBody2D
 
 	public override void _Ready()
 	{
+		var area2D = GetNode<Area2D>("Area2D");
+		area2D.AreaEntered += OnAreaEntered;
 	}
 
 	public override void _Process(double delta)
@@ -23,5 +25,10 @@ public partial class BasicEnemy : CharacterBody2D
 			return (playerNode.GlobalPosition - GlobalPosition).Normalized();
 
 		return Vector2.Zero;
+	}
+
+	private void OnAreaEntered(Area2D otherArea)
+	{
+		QueueFree();
 	}
 }
