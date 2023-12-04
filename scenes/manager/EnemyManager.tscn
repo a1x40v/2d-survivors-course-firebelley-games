@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0rma554xjmdg"]
+
+[ext_resource type="Script" path="res://scenes/manager/EnemyManager.cs" id="1_fb7mf"]
+[ext_resource type="PackedScene" uid="uid://dfwvnrqtqwc0k" path="res://scenes/basic_enemy/BasicEnemy.tscn" id="2_1p6dt"]
+
+[node name="EnemyManager" type="Node"]
+script = ExtResource("1_fb7mf")
+BasicEnemyScene = ExtResource("2_1p6dt")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
