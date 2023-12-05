@@ -2,7 +2,7 @@ using Godot;
 
 public partial class BasicEnemy : CharacterBody2D
 {
-	public const int MaxSpeed = 75;
+	public const int MaxSpeed = 40;
 
 	public override void _Ready()
 	{
