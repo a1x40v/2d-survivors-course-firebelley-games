@@ -4,10 +4,14 @@ public partial class BasicEnemy : CharacterBody2D
 {
 	public const int MaxSpeed = 40;
 
+	public HealthComponent HealthComponent { get; set; }
+
 	public override void _Ready()
 	{
 		var area2D = GetNode<Area2D>("Area2D");
 		area2D.AreaEntered += OnAreaEntered;
+
+		HealthComponent = GetNode<HealthComponent>("HealthComponent");
 	}
 
 	public override void _Process(double delta)
@@ -29,6 +33,6 @@ public partial class BasicEnemy : CharacterBody2D
 
 	private void OnAreaEntered(Area2D otherArea)
 	{
-		QueueFree();
+		HealthComponent.Damage(100);
 	}
 }
