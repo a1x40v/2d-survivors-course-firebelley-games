@@ -6,14 +6,6 @@ public partial class BasicEnemy : CharacterBody2D
 
 	public HealthComponent HealthComponent { get; set; }
 
-	public override void _Ready()
-	{
-		var area2D = GetNode<Area2D>("Area2D");
-		area2D.AreaEntered += OnAreaEntered;
-
-		HealthComponent = GetNode<HealthComponent>("HealthComponent");
-	}
-
 	public override void _Process(double delta)
 	{
 		Vector2 direction = GetDirectionToPlayer();
@@ -29,10 +21,5 @@ public partial class BasicEnemy : CharacterBody2D
 			return (playerNode.GlobalPosition - GlobalPosition).Normalized();
 
 		return Vector2.Zero;
-	}
-
-	private void OnAreaEntered(Area2D otherArea)
-	{
-		HealthComponent.Damage(100);
 	}
 }

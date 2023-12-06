@@ -5,6 +5,8 @@ public partial class SwordAbilityController : Node
 {
 	public const int MaxRange = 150;
 
+	public float Damage { get; set; } = 5;
+
 	[Export]
 	public PackedScene SwordAbility { get; set; }
 
@@ -33,8 +35,9 @@ public partial class SwordAbilityController : Node
 			.OrderBy(x => x.GlobalPosition.DistanceSquaredTo(player.GlobalPosition))
 			.First();
 
-		var swordInstance = SwordAbility.Instantiate() as Node2D;
+		var swordInstance = SwordAbility.Instantiate() as SwordAbility;
 		player.GetParent().AddChild(swordInstance);
+		swordInstance.HitboxComponent.Damage = Damage;
 		swordInstance.GlobalPosition = closestEnemy.GlobalPosition;
 		swordInstance.GlobalPosition += Vector2.Right.Rotated((float)GD.RandRange(0, Mathf.Tau)) * 4;
 
