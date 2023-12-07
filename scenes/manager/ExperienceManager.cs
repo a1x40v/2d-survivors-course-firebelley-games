@@ -2,36 +2,40 @@ using Godot;
 
 public partial class ExperienceManager : Node
 {
-	[Signal]
-	public delegate void ExpirienceUpdatedEventHandler(float currentExp, float targetExp);
+    [Signal]
+    public delegate void ExpirienceUpdatedEventHandler(float currentExp, float targetExp);
 
-	private const float TargetExperienceGrow = 5;
-	private int _currentLevel = 1;
-	private float _currentExp;
-	private float _targetExp = 5;
+    [Signal]
+    public delegate void LevelUpEventHandler(int newLevel);
 
-	public override void _Ready()
-	{
-		var gameEvents = GetNode<GameEvents>("/root/GameEvents");
-		gameEvents.Connect("ExpirienceVialCollected", new Callable(this, nameof(OnExpirienceVialCollected)));
-	}
+    private const float TargetExperienceGrow = 5;
+    private int _currentLevel = 1;
+    private float _currentExp;
+    private float _targetExp = 5;
 
-	public void IncrementExperience(float amount)
-	{
-		_currentExp = Mathf.Min(_currentExp + amount, _targetExp);
-		EmitSignal("ExpirienceUpdated", _currentExp, _targetExp);
+    public override void _Ready()
+    {
+        var gameEvents = GetNode<GameEvents>("/root/GameEvents");
+        gameEvents.Connect("ExpirienceVialCollected", new Callable(this, nameof(OnExpirienceVialCollected)));
+    }
 
-		if (_currentExp == _targetExp)
-		{
-			_currentLevel++;
-			_targetExp += TargetExperienceGrow;
-			_currentExp = 0;
-			EmitSignal("ExpirienceUpdated", _currentExp, _targetExp);
-		}
-	}
+    public void IncrementExperience(float amount)
+    {
+        _currentExp = Mathf.Min(_currentExp + amount, _targetExp);
+        EmitSignal("ExpirienceUpdated", _currentExp, _targetExp);
 
-	public void OnExpirienceVialCollected(float amount)
-	{
-		IncrementExperience(amount);
-	}
+        if (_currentExp == _targetExp)
+        {
+            _currentLevel++;
+            _targetExp += TargetExperienceGrow;
+            _currentExp = 0;
+            EmitSignal("ExpirienceUpdated", _currentExp, _targetExp);
+            EmitSignal("LevelUp", _currentLevel);
+        }
+    }
+
+    public void OnExpirienceVialCollected(float amount)
+    {
+        IncrementExperience(amount);
+    }
 }
