@@ -43,7 +43,8 @@ public partial class SwordAbilityController : Node
 			.First();
 
 		var swordInstance = SwordAbility.Instantiate() as SwordAbility;
-		player.GetParent().AddChild(swordInstance);
+		var foregroundLayer = GetTree().GetFirstNodeInGroup("foreground_layer");
+		foregroundLayer.AddChild(swordInstance);
 		swordInstance.HitboxComponent.Damage = _damage;
 		swordInstance.GlobalPosition = closestEnemy.GlobalPosition;
 		swordInstance.GlobalPosition += Vector2.Right.Rotated((float)GD.RandRange(0, Mathf.Tau)) * 4;
@@ -59,7 +60,5 @@ public partial class SwordAbilityController : Node
 		double percentReduction = (int)currentUpgrades["sword_rate"]["quantity"] * .7;
 		_timer.WaitTime = Mathf.Max(_baseWaitTime * (1 - percentReduction), 0.3);
 		// _timer.Start();
-
-		GD.Print(_timer.WaitTime);
 	}
 }
