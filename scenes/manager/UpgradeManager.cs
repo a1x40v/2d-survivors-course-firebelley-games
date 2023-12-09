@@ -35,7 +35,9 @@ public partial class UpgradeManager : Node
         {
             CurrentUpgrades[upgrade.Id]["quantity"] = (int)CurrentUpgrades[upgrade.Id]["quantity"] + 1;
         }
-        GD.Print(CurrentUpgrades);
+
+        var gameEvents = GetNode<GameEvents>("/root/GameEvents");
+        gameEvents.EmitAbilityUpgradeAdded(upgrade, CurrentUpgrades);
     }
 
     public void OnLevelUp(int currentLevel)

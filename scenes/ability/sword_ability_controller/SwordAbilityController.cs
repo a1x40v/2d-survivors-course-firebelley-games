@@ -1,19 +1,26 @@
 using System.Linq;
 using Godot;
+using Godot.Collections;
 
 public partial class SwordAbilityController : Node
 {
 	public const int MaxRange = 150;
 
-	public float Damage { get; set; } = 5;
+	private Timer _timer;
+	private double _baseWaitTime;
+	private float _damage = 5;
 
 	[Export]
 	public PackedScene SwordAbility { get; set; }
 
 	public override void _Ready()
 	{
-		var timer = GetNode<Timer>("Timer");
-		timer.Timeout += OnTimerTimeout;
+		_timer = GetNode<Timer>("Timer");
+		_timer.Timeout += OnTimerTimeout;
+		_baseWaitTime = _timer.WaitTime;
+
+		var gameEvents = GetNode<GameEvents>("/root/GameEvents");
+		gameEvents.Connect("AbilityUpgradeAdded", new Callable(this, nameof(OnAbilityUpgradeAdded)));
 	}
 
 	private void OnTimerTimeout()
@@ -37,11 +44,22 @@ public partial class SwordAbilityController : Node
 
 		var swordInstance = SwordAbility.Instantiate() as SwordAbility;
 		player.GetParent().AddChild(swordInstance);
-		swordInstance.HitboxComponent.Damage = Damage;
+		swordInstance.HitboxComponent.Damage = _damage;
 		swordInstance.GlobalPosition = closestEnemy.GlobalPosition;
 		swordInstance.GlobalPosition += Vector2.Right.Rotated((float)GD.RandRange(0, Mathf.Tau)) * 4;
 
 		var enemyDirecion = closestEnemy.GlobalPosition - swordInstance.GlobalPosition;
 		swordInstance.Rotation = enemyDirecion.Angle();
+	}
+
+	public void OnAbilityUpgradeAdded(AbilityUpgrade upgrade, Dictionary<string, Dictionary> currentUpgrades)
+	{
+		if (upgrade.Id != "sword_rate") return;
+
+		double percentReduction = (int)currentUpgrades["sword_rate"]["quantity"] * .7;
+		_timer.WaitTime = Mathf.Max(_baseWaitTime * (1 - percentReduction), 0.3);
+		// _timer.Start();
+
+		GD.Print(_timer.WaitTime);
 	}
 }
