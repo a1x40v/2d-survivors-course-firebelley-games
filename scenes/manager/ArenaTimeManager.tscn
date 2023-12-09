@@ -1,11 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://l6pjvnbsn6qs"]
+[gd_scene load_steps=3 format=3 uid="uid://l6pjvnbsn6qs"]
 
 [ext_resource type="Script" path="res://scenes/manager/ArenaTimeManager.cs" id="1_yxwuy"]
+[ext_resource type="PackedScene" uid="uid://cmc0557vwfkpx" path="res://scenes/ui/VictoryScreen.tscn" id="2_w02ec"]
 
 [node name="ArenaTimeManager" type="Node"]
 script = ExtResource("1_yxwuy")
+VictoryScreenScene = ExtResource("2_w02ec")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 60.0
+wait_time = 5.0
 one_shot = true
 autostart = true
