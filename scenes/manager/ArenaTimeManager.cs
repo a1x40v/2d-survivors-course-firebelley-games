@@ -3,7 +3,7 @@ using Godot;
 public partial class ArenaTimeManager : Node
 {
 	[Export]
-	public PackedScene VictoryScreenScene { get; set; }
+	public PackedScene EndScreenScene { get; set; }
 
 	private Timer _timer;
 
@@ -20,7 +20,7 @@ public partial class ArenaTimeManager : Node
 
 	public void OnTimerTimeout()
 	{
-		var victoryScreenInstance = VictoryScreenScene.Instantiate();
-		AddChild(victoryScreenInstance);
+		var endScreenInstance = EndScreenScene.Instantiate();
+		AddChild(endScreenInstance);
 	}
 }
