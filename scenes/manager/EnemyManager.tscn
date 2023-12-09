@@ -8,4 +8,5 @@ script = ExtResource("1_fb7mf")
 BasicEnemyScene = ExtResource("2_1p6dt")
 
 [node name="Timer" type="Timer" parent="."]
+one_shot = true
 autostart = true
