@@ -57,7 +57,7 @@ public partial class SwordAbilityController : Node
 	{
 		if (upgrade.Id != "sword_rate") return;
 
-		double percentReduction = (int)currentUpgrades["sword_rate"]["quantity"] * .7;
+		double percentReduction = (int)currentUpgrades["sword_rate"]["quantity"] * .1;
 		_timer.WaitTime = Mathf.Max(_baseWaitTime * (1 - percentReduction), 0.3);
 		// _timer.Start();
 	}
