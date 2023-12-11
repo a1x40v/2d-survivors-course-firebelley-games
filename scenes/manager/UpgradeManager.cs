@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 using Godot.Collections;
 
@@ -40,14 +41,29 @@ public partial class UpgradeManager : Node
         gameEvents.EmitAbilityUpgradeAdded(upgrade, CurrentUpgrades);
     }
 
+    private Array<AbilityUpgrade> PickUpgrades()
+    {
+        var chosenUpgrades = new Array<AbilityUpgrade>();
+        var filteredUpgrades = UpgradePool.Duplicate();
+
+        for (int i = 0; i < 2; i++)
+        {
+            var chosenUpgrade = filteredUpgrades.PickRandom();
+            chosenUpgrades.Add(chosenUpgrade);
+            filteredUpgrades = new Array<AbilityUpgrade>(filteredUpgrades.Where(x => x.Id != chosenUpgrade.Id));
+        }
+
+        return chosenUpgrades;
+    }
+
     public void OnLevelUp(int currentLevel)
     {
-        var chosenUpgrade = UpgradePool.PickRandom();
-        if (chosenUpgrade == null) return;
-
         var upgradeScreenInstance = UpgradeScreenScene.Instantiate() as UpgradeScreen;
         AddChild(upgradeScreenInstance);
-        upgradeScreenInstance.SetAbilityUpgrades(new Array<AbilityUpgrade> { chosenUpgrade });
+
+        var chosenUpgrades = PickUpgrades();
+        upgradeScreenInstance.SetAbilityUpgrades(chosenUpgrades);
+
         upgradeScreenInstance.Connect("UpgradeSelected", new Callable(this, nameof(OnUpgradeSelected)));
     }
 
