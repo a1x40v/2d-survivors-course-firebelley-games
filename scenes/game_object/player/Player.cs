@@ -7,6 +7,8 @@ public partial class Player : CharacterBody2D
 	public const int AccelerationSmoothing = 25;
 
 	private Node _abilities;
+	private Node2D _visuals;
+	private AnimationPlayer _animationPlayer;
 	private ProgressBar _healthBar;
 	private Timer _damageIntervalTimer;
 	private int _numberCollidingBodies;
@@ -16,6 +18,9 @@ public partial class Player : CharacterBody2D
 	public override void _Ready()
 	{
 		_abilities = GetNode<Node>("Abilities");
+		_visuals = GetNode<Node2D>("Visuals");
+
+		_animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
 		HealthComponent = GetNode<HealthComponent>("HealthComponent");
 		_healthBar = GetNode<ProgressBar>("HealthBar");
@@ -43,6 +48,19 @@ public partial class Player : CharacterBody2D
 		Velocity = Velocity.Lerp(targetVelocity, 1 - Mathf.Exp(-(float)delta * AccelerationSmoothing));
 
 		MoveAndSlide();
+
+		if (movementVector.X != 0 || movementVector.Y != 0)
+		{
+			_animationPlayer.Play("walk");
+		}
+		else
+		{
+			_animationPlayer.Play("RESET");
+		}
+
+		var moveSign = Mathf.Sign(movementVector.X);
+
+		_visuals.Scale = moveSign == 0 ? Vector2.One : new Vector2(moveSign, 1);
 	}
 
 	private Vector2 GetMovementVector()
