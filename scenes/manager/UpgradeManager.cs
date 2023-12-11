@@ -37,6 +37,15 @@ public partial class UpgradeManager : Node
             CurrentUpgrades[upgrade.Id]["quantity"] = (int)CurrentUpgrades[upgrade.Id]["quantity"] + 1;
         }
 
+        if (upgrade.MaxQuantity > 0)
+        {
+            var currentQuantity = (int)CurrentUpgrades[upgrade.Id]["quantity"];
+            if (currentQuantity == upgrade.MaxQuantity)
+            {
+                UpgradePool = new Array<AbilityUpgrade>(UpgradePool.Where(x => x.Id != upgrade.Id));
+            }
+        }
+
         var gameEvents = GetNode<GameEvents>("/root/GameEvents");
         gameEvents.EmitAbilityUpgradeAdded(upgrade, CurrentUpgrades);
     }
@@ -48,6 +57,7 @@ public partial class UpgradeManager : Node
 
         for (int i = 0; i < 2; i++)
         {
+            if (filteredUpgrades.Count == 0) break;
             var chosenUpgrade = filteredUpgrades.PickRandom();
             chosenUpgrades.Add(chosenUpgrade);
             filteredUpgrades = new Array<AbilityUpgrade>(filteredUpgrades.Where(x => x.Id != chosenUpgrade.Id));
