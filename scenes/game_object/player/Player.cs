@@ -59,8 +59,11 @@ public partial class Player : CharacterBody2D
 		}
 
 		var moveSign = Mathf.Sign(movementVector.X);
+		if (moveSign != 0)
+		{
+			_visuals.Scale = new Vector2(moveSign, 1);
+		}
 
-		_visuals.Scale = moveSign == 0 ? Vector2.One : new Vector2(moveSign, 1);
 	}
 
 	private Vector2 GetMovementVector()
