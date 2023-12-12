@@ -2,6 +2,7 @@ using Godot;
 
 public partial class WizardEnemy : CharacterBody2D
 {
+	private bool _isMoving;
 	private Node2D _visuals;
 
 	public VelocityComponent VelocityComponent { get; set; }
@@ -14,7 +15,15 @@ public partial class WizardEnemy : CharacterBody2D
 
 	public override void _Process(double delta)
 	{
-		VelocityComponent.AccelerateToPlayer();
+		if (_isMoving)
+		{
+			VelocityComponent.AccelerateToPlayer();
+		}
+		else
+		{
+			VelocityComponent.Decelerate();
+		}
+
 		VelocityComponent.Move(this);
 
 		var moveSign = Mathf.Sign(Velocity.X);
@@ -22,5 +31,10 @@ public partial class WizardEnemy : CharacterBody2D
 		{
 			_visuals.Scale = new Vector2(moveSign, 1);
 		}
+	}
+
+	public void SetIsMoving(bool isMoving)
+	{
+		_isMoving = isMoving;
 	}
 }

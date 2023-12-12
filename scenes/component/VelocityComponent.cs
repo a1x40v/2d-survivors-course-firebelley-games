@@ -28,6 +28,11 @@ public partial class VelocityComponent : Node
 		_velocity = _velocity.Lerp(desiredVelocity, 1 - Mathf.Exp(-Acceleration * (float)GetProcessDeltaTime()));
 	}
 
+	public void Decelerate()
+	{
+		AccelerateInDirection(Vector2.Zero);
+	}
+
 	public void Move(CharacterBody2D characterBody)
 	{
 		characterBody.Velocity = _velocity;
