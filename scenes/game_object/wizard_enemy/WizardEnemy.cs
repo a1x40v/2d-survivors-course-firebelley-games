@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class BasicEnemy : CharacterBody2D
+public partial class WizardEnemy : CharacterBody2D
 {
 	private Node2D _visuals;
 
@@ -20,7 +20,7 @@ public partial class BasicEnemy : CharacterBody2D
 		var moveSign = Mathf.Sign(Velocity.X);
 		if (moveSign != 0)
 		{
-			_visuals.Scale = new Vector2(-moveSign, 1);
+			_visuals.Scale = new Vector2(moveSign, 1);
 		}
 	}
 }
