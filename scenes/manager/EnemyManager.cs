@@ -10,11 +10,17 @@ public partial class EnemyManager : Node
 	[Export]
 	public PackedScene BasicEnemyScene { get; set; }
 
+	[Export]
+	public PackedScene WizardEnemyScene { get; set; }
+
 	private double _baseSpawnTime;
 	private Timer _timer;
+	private WeightedTable _enemyTable = new WeightedTable();
 
 	public override void _Ready()
 	{
+		_enemyTable.AddItem(BasicEnemyScene, 10);
+
 		_timer = GetNode<Timer>("Timer");
 		_baseSpawnTime = _timer.WaitTime;
 		_timer.Timeout += OnTimerTimeout;
@@ -48,7 +54,9 @@ public partial class EnemyManager : Node
 		var player = GetTree().GetFirstNodeInGroup("player") as Node2D;
 		if (player == null) return;
 
-		var enemy = BasicEnemyScene.Instantiate() as Node2D;
+		PackedScene enemyScene = _enemyTable.PickItem();
+		var enemy = enemyScene.Instantiate() as Node2D;
+
 		var entitiesLayer = GetTree().GetFirstNodeInGroup("entities_layer");
 		entitiesLayer.AddChild(enemy);
 		enemy.GlobalPosition = GetSpawnPosition(player);
@@ -59,5 +67,10 @@ public partial class EnemyManager : Node
 		double timeOff = .1 / 12 * difficulty;
 		timeOff = Mathf.Min(timeOff, .7);
 		_timer.WaitTime = _baseSpawnTime - timeOff;
+
+		if (difficulty == 6)
+		{
+			_enemyTable.AddItem(WizardEnemyScene, 20);
+		}
 	}
 }

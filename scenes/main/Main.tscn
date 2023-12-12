@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cy82t0512op1b"]
+[gd_scene load_steps=13 format=3 uid="uid://cy82t0512op1b"]
 
 [ext_resource type="TileSet" uid="uid://dqm2jc0h8q0ba" path="res://resources/tileset.tres" id="1_4bb1s"]
 [ext_resource type="PackedScene" uid="uid://c0rma554xjmdg" path="res://scenes/manager/EnemyManager.tscn" id="1_8s0ks"]
@@ -12,7 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://bwby0q86y52lk" path="res://scenes/manager/ExperienceManager.tscn" id="4_xlrrs"]
 [ext_resource type="Script" path="res://scenes/manager/ExperienceManager.cs" id="5_0mode"]
 [ext_resource type="PackedScene" uid="uid://bqg3diq4voltp" path="res://scenes/manager/UpgradeManager.tscn" id="7_3u0h6"]
-[ext_resource type="PackedScene" uid="uid://6n2f6p1j0pol" path="res://scenes/game_object/wizard_enemy/WizardEnemy.tscn" id="13_3kx0f"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_6388r")
@@ -49,8 +48,5 @@ y_sort_enabled = true
 [node name="Player" parent="Entities" instance=ExtResource("1_bwa7v")]
 unique_name_in_owner = true
 position = Vector2(323, 173)
-
-[node name="WizardEnemy" parent="Entities" instance=ExtResource("13_3kx0f")]
-position = Vector2(212, 220)
 
 [node name="Foreground" type="Node2D" parent="." groups=["foreground_layer"]]
