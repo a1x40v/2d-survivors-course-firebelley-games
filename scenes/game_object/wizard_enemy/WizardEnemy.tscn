@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://6n2f6p1j0pol"]
+[gd_scene load_steps=16 format=3 uid="uid://6n2f6p1j0pol"]
 
 [ext_resource type="Texture2D" uid="uid://dv7fv4xaur0cb" path="res://scenes/game_object/wizard_enemy/wizard_enemy.png" id="1_2rnhn"]
 [ext_resource type="Script" path="res://scenes/game_object/wizard_enemy/WizardEnemy.cs" id="1_iwns1"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://ewxwt4undkwj" path="res://scenes/component/DeathComponent.tscn" id="2_tlqga"]
 [ext_resource type="PackedScene" uid="uid://cfk10ik7pn7xv" path="res://scenes/component/HurtboxComponent.tscn" id="4_bjfvq"]
 [ext_resource type="PackedScene" uid="uid://cwcd1oimw30cp" path="res://scenes/component/VialDropComponent.tscn" id="4_q3poq"]
+[ext_resource type="PackedScene" uid="uid://b1i5y3j1wuq54" path="res://scenes/component/HitFlashComponent.tscn" id="5_hu51k"]
+[ext_resource type="Shader" path="res://scenes/component/HitFlashComponent.gdshader" id="6_yypiu"]
 
 [sub_resource type="Animation" id="Animation_fwsoe"]
 length = 0.001
@@ -112,6 +114,11 @@ _data = {
 "walk": SubResource("Animation_btyi4")
 }
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gebfs"]
+resource_local_to_scene = true
+shader = ExtResource("6_yypiu")
+shader_parameter/lerp_procent = 0.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_aoobf"]
 radius = 8.0
 
@@ -138,6 +145,11 @@ Acceleration = 20.0
 
 [node name="VialDropComponent" parent="." node_paths=PackedStringArray("HealthComponent") instance=ExtResource("4_q3poq")]
 HealthComponent = NodePath("../HealthComponent")
+
+[node name="HitFlashComponent" parent="." node_paths=PackedStringArray("HealthComponent", "Sprite") instance=ExtResource("5_hu51k")]
+HealthComponent = NodePath("../HealthComponent")
+Sprite = NodePath("../Visuals/Sprite2D")
+HitFlashMaterial = SubResource("ShaderMaterial_gebfs")
 
 [node name="DeathComponent" parent="." node_paths=PackedStringArray("HealthComponent", "Sprite") instance=ExtResource("2_tlqga")]
 HealthComponent = NodePath("../HealthComponent")

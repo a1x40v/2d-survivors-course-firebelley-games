@@ -28,6 +28,8 @@ public partial class HitFlashComponent : Node
 
 		(Sprite.Material as ShaderMaterial).SetShaderParameter("lerp_procent", 1f);
 		_hitFlashTween = CreateTween();
-		_hitFlashTween.TweenProperty(Sprite.Material, "shader_parameter/lerp_procent", 0f, .2);
+		_hitFlashTween.TweenProperty(Sprite.Material, "shader_parameter/lerp_procent", 0f, .25)
+			.SetEase(Tween.EaseType.In)
+			.SetTrans(Tween.TransitionType.Cubic);
 	}
 }
