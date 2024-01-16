@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using Godot;
-using Godot.Collections;
 
 public partial class UpgradeScreen : CanvasLayer
 {
@@ -17,7 +17,7 @@ public partial class UpgradeScreen : CanvasLayer
 		GetTree().Paused = true;
 	}
 
-	public void SetAbilityUpgrades(Array<AbilityUpgrade> upgrades)
+	public void SetAbilityUpgrades(ICollection<AbilityUpgrade> upgrades)
 	{
 		foreach (var upgrade in upgrades)
 		{

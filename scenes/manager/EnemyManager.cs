@@ -15,11 +15,11 @@ public partial class EnemyManager : Node
 
 	private double _baseSpawnTime;
 	private Timer _timer;
-	private WeightedTable _enemyTable = new WeightedTable();
+	private WeightedTable<PackedScene> _enemyTable = new WeightedTable<PackedScene>();
 
 	public override void _Ready()
 	{
-		_enemyTable.AddItem(BasicEnemyScene, 10);
+		_enemyTable.AddItem("basic", BasicEnemyScene, 10);
 
 		_timer = GetNode<Timer>("Timer");
 		_baseSpawnTime = _timer.WaitTime;
@@ -70,7 +70,7 @@ public partial class EnemyManager : Node
 
 		if (difficulty == 6)
 		{
-			_enemyTable.AddItem(WizardEnemyScene, 20);
+			_enemyTable.AddItem("wizard", WizardEnemyScene, 20);
 		}
 	}
 }
